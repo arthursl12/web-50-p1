@@ -1,8 +1,31 @@
 {% extends "base.html" %}
 
+{% block styles %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='search.css') }}">
+{% endblock %}
+
+
 {% block content %}
-    <h1>Hi, {{ user.login }}!</h1>
+    <div class="float-none">
+        <h1 id="saudation">Hi, {{ user.login }}!</h1>
+    </div>
+    <br>
+
     {% for post in posts %}
     <div><p>{{ post.author.username }} says: <b>{{ post.body }}</b></p></div>
     {% endfor %}
+
+    <div class="d-flex text-center align-items-center justify-content-center">   
+        <form id='search_form' action="" method="post" novalidate>
+            {{ form.hidden_tag() }}
+            <p>
+                <span id="selection">{{ form.select }}</span>
+                <span id="search_bar">{{ form.search }}</span>
+                
+            </p>
+            <p><input type="submit" value="Search"></p>
+        </form>
+    </div>
+    
+
 {% endblock %}
