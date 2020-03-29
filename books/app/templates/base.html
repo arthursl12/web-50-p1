@@ -13,6 +13,9 @@
 
             <a href="{{ url_for('index') }}">Home</a>
             <a href="{{ url_for('login') }}">Login</a>
+            {% if userlogged %}
+            <a href="{{ url_for('logout') }}">Logout</a>
+            {% endif %}
 
 
         </div>

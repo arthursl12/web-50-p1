@@ -9,12 +9,14 @@ from app.users import checkPassword, findUser
 @app.route("/")
 @app.route('/index')
 def index():
+    print(session)
     return render_template('index.html', title='Home', user="user")
 
 @app.route('/userPage')
 def userPage():
     user = findUser(session['user_id'])
-    return render_template('index.html', title='Home', user=user)
+
+    return render_template('index.html', title='Home', user=user, userlogged=True)
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -32,3 +34,8 @@ def login():
             form.username.data, form.remember_me.data))
             return redirect(url_for('userPage'))
     return render_template('login.html', title='Sign In', form=form)
+
+@app.route('/logout')
+def logout():
+    session.clear()
+    return render_template('index.html', title='Home', user="user")
