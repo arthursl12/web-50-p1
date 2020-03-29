@@ -1,0 +1,31 @@
+/* NAVBAR */
+.top-bar {
+    margin-bottom: 3rem;
+    background-color: blanchedalmond;
+    -webkit-box-shadow: inset 0 -.1rem .25rem rgba(0,0,0,.1);
+            box-shadow: inset 0 -.1rem .25rem rgba(0,0,0,.1);
+  }
+
+.nav-link {
+    position: relative;
+    padding: 1rem;
+    font-weight: 700;
+    color: peru;
+    font-size: large;
+    
+}
+.nav-link:hover,
+.nav-link:focus {
+    color: #fff;
+    background-color: transparent;
+}
+
+/* FOOTER */
+footer{
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    background-color: blanchedalmond;
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+}

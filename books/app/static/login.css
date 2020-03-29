@@ -1,0 +1,24 @@
+#page_title {
+  background-color: blanchedalmond;
+  padding: 10px; }
+
+#page_title h1 {
+  font-weight: 500; }
+#page_title p {
+  font-weight: 100;
+  font-size: medium; }
+
+h2 {
+  font-weight: 300; }
+
+#login_box {
+  max-width: 400px;
+  margin: auto;
+  margin-top: 30px;
+  border-width: 3px !important;
+  border-radius: 30px !important;
+  border-color: burlywood !important;
+  margin-bottom: 30px;
+  background-color: #fff7eb; }
+
+/*# sourceMappingURL=login.css.map */
