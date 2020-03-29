@@ -4,6 +4,7 @@ import requests
 from flask import Flask
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
+from flask_login import LoginManager
 
 from app.config import Config
 
@@ -18,8 +19,6 @@ db = scoped_session(sessionmaker(bind=engine))
 
 
 
-
-
-from app import routes
+from app import routes, models
 
 app.run(debug=True)
