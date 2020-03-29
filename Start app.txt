@@ -1,5 +1,5 @@
 ## Go to the books directory!
-## Activate the virtualenvironment: source source gitenv3/bin/activate
+## Activate the virtualenvironment: source gitvenv3/bin/activate
 	## Obs.: to create a venv: python3 -m venv [name]
-## Pip install the requirements.txt
+## Pip3 install the requirements.txt
 ## Run flask
