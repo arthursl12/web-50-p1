@@ -1,4 +1,4 @@
-from flask import render_template,session, flash, redirect, url_for, request
+from flask import render_template,session, flash, redirect, url_for, request, abort
 
 
 from app import app
@@ -38,7 +38,7 @@ def login():
             flash('Login requested for user {}'.format(
             form.username.data))
             return redirect(url_for('search'))
-    return render_template('login.html', title='Sign In', form=form)
+    return render_template('login.html', title='Sign In', form=form, userlogged=False)
 
 @app.route('/logout')
 def logout():
@@ -63,5 +63,10 @@ def search_results(search):
     
 @app.route('/book/<isbn>')
 def bookPage(isbn):
-    
-    return render_template('book.html', isbn=isbn)
+    book = db.execute("SELECT * FROM book WHERE isbn=:isbn", {"isbn": isbn}).fetchone()
+    print(book)
+    if book is None:
+        abort(404)
+    else:
+        print(f"Book:{book.isbn}, {book.title} from {book.author}, {book.year}")
+        return render_template('book.html', book=book, userlogged=False)

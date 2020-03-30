@@ -1,13 +1,45 @@
 {% extends "base.html" %}
 
 {% block styles %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='book.css') }}">
 {% endblock %}
 
 
 {% block content %}
-    <div class="float-none">
-        <h1>Book Page. ISBN= {{isbn}}</h1>
+    {% if userlogged == false %}
+    <div class="top-bar">
+        <div class="container">
+            <nav class="nav blog-nav">
+                <a class="nav-link active" href="{{ url_for('login') }}">Sign in to post a review</a>
+            </nav>
+        </div>
     </div>
+    {% endif %}
+    
+
+    <div id="book" class="container">
+        <div class="row">
+            <div class="col-sm-1" style="background-color: aquamarine;"></div>
+            <div id="title" class="col-sm-9">
+                <h1>
+                    {{book.title}}
+                    ({{book.year}})
+                </h1>
+            </div>
+            <div class="col-sm-1"></div>
+        </div>
+        
+        <div class="row">
+            <div class="col-sm">
+                <p id="book_contents">
+                    <span>ISBN: {{book.isbn}}</span><br>
+                    <span>Autor: {{book.author}}</span><br>
+                    <span>Ano: {{book.year}}</span><br>
+                </p>
+            </div>
+        </div>
+    </div>
+    
     
 
 {% endblock %}

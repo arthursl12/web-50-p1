@@ -12,13 +12,13 @@
         {% block styles %}{% endblock %}
     </head>
     <body>
-        {% if userlogged %}
+        {% if userlogged == true %}
             <div class="top-bar">
                 <div class="container">
                     <nav class="nav blog-nav">
                         <a class="nav-link active" href="{{ url_for('search') }}">Home</a>
                         <a class="nav-link" href="{{ url_for('logout') }}">Logout</a>
-                        <a class="nav-link" href="{{ url_for('bookPage', isbn=1) }}">Book</a>
+                        <a class="nav-link" href="{{ url_for('bookPage', isbn='0006480098') }}">Book</a>
                     </nav>
                 </div>
             </div>
