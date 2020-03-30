@@ -61,6 +61,7 @@ def search_results(search):
         # display results
         return render_template('results.html', results=results)
     
-@app.route('/book')
-def bookPage():
-    return render_template('book.html')
+@app.route('/book/<isbn>')
+def bookPage(isbn):
+    
+    return render_template('book.html', isbn=isbn)
