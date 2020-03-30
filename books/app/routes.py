@@ -60,3 +60,7 @@ def search_results(search):
     else:
         # display results
         return render_template('results.html', results=results)
+    
+@app.route('/book')
+def bookPage():
+    return render_template('book.html')
