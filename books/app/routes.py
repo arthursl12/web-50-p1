@@ -7,6 +7,7 @@ from app import app
 from app import db
 from app.forms import LoginForm, BookSearchForm, BookReviewForm
 from app.users import checkPassword, findUser
+from app.posts import addPost
 
 GOODREADS_KEY = "qwAYxunHEt6KnQJzDskA"
 
@@ -102,5 +103,7 @@ def review(isbn):
     reviewForm = BookReviewForm(request.form)
     if request.method == 'POST' and reviewForm.validate_on_submit():
         # The validation is actually held in the form class!
-        pass
+        # addPost(session['user_id'], isbn, float(reviewForm.rating.data), reviewForm.review_text.data)
+        flash("Post added sucessfully")
+        return redirect(url_for('bookPage', isbn=isbn))
     return render_template('review.html', book=book, form=reviewForm, user=findUser(session['user_id']))
