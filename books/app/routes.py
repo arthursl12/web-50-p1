@@ -69,7 +69,8 @@ def search_results(search):
         return render_template('results.html', results=results)
     
 @app.route('/book/<isbn>')
-def bookPage(isbn):
+@app.route('/book/<isbn>/<alert>')
+def bookPage(isbn, alert=""):
     book = db.execute("SELECT * FROM book WHERE isbn=:isbn", {"isbn": isbn}).fetchone()
     db.close() 
     # print(book)
@@ -79,6 +80,8 @@ def bookPage(isbn):
     else:
         user = findUser(session['user_id'])
 
+    if alert == "success": msg = "Post added successfuly!"
+    else: msg = ""
 
 
     if book is None:
@@ -92,7 +95,7 @@ def bookPage(isbn):
         # Render template
         # print(f"Book:{book.isbn}, {book.title} from {book.author}, {book.year}")
     
-        return render_template('book.html', book=book, book_json=book_json, user=user)
+        return render_template('book.html', book=book, book_json=book_json, user=user, alert=msg)
 
 @app.route('/book/<isbn>/review', methods=['GET','POST'])
 @login_required
@@ -104,6 +107,5 @@ def review(isbn):
     if request.method == 'POST' and reviewForm.validate_on_submit():
         # The validation is actually held in the form class!
         # addPost(session['user_id'], isbn, float(reviewForm.rating.data), reviewForm.review_text.data)
-        flash("Post added sucessfully")
-        return redirect(url_for('bookPage', isbn=isbn))
+        return redirect(url_for('bookPage', isbn=isbn, alert="success"))
     return render_template('review.html', book=book, form=reviewForm, user=findUser(session['user_id']))
