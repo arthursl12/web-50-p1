@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField, SubmitField, SelectField
-from wtforms.validators import DataRequired
+from wtforms import StringField, PasswordField, BooleanField, SubmitField, SelectField, DecimalField, TextAreaField
+from wtforms.validators import DataRequired, NumberRange
 
 class LoginForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
@@ -13,3 +13,7 @@ class BookSearchForm(FlaskForm):
                ('isbn','ISBN')]
     select = SelectField('Search for books:', choices=choices)
     search = StringField('')
+
+class BookReviewForm(FlaskForm):
+    rating = DecimalField('Rating', places=2,validators=[NumberRange(min=0, max=5),DataRequired()])
+    review_text = TextAreaField('Review', validators=[DataRequired()])

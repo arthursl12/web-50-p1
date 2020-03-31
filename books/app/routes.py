@@ -1,6 +1,8 @@
-from flask import render_template,session, flash, redirect, url_for, request, abort
+from flask import Blueprint,render_template,session, flash, redirect, url_for, request, abort, g
 import requests
+import functools
 
+from app.auth import login_required
 from app import app
 from app import db
 from app.forms import LoginForm, BookSearchForm
@@ -15,14 +17,14 @@ def index():
     return redirect(url_for('login'))
 
 @app.route('/search', methods=['GET', 'POST'])
+@login_required
 def search():
     user = findUser(session['user_id'])
     search = BookSearchForm()
     if request.method == 'POST':
         return search_results(search)
     return render_template('search.html', 
-        title='Home', user=user, userlogged=True,
-        form=search)
+        title='Home', user=user, userlogged=True, form=search)
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -48,6 +50,7 @@ def logout():
     return redirect(url_for('login'))
 
 @app.route('/results')
+@login_required
 def search_results(search):
     # TODO: adaptar essa função para o SQLAlchemy puro
     # Função original de http://www.blog.pythonlibrary.org/2017/12/13/flask-101-how-to-add-a-search-form/
@@ -79,3 +82,8 @@ def bookPage(isbn):
         # Render template
         print(f"Book:{book.isbn}, {book.title} from {book.author}, {book.year}")
         return render_template('book.html', book=book, book_json=book_json, userlogged=True)
+
+@app.route('/book/<isbn>/review')
+@login_required
+def review(isbn):
+    return render_template('review.html')

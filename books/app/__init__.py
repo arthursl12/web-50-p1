@@ -17,7 +17,8 @@ engine = create_engine(os.getenv("DATABASE_URL")) # database engine object from 
                                                     # DATABASE_URL is an environment variable that indicates where the database lives
 db = scoped_session(sessionmaker(bind=engine))
 
-
+from app import auth
+app.register_blueprint(auth.bp)
 
 from app import routes, models
 
