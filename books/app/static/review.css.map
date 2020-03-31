@@ -1,0 +1,7 @@
+{
+"version": 3,
+"mappings": "AAAA,EAAE;EACE,gBAAgB,EAAE,WAAW",
+"sources": ["review.scss"],
+"names": [],
+"file": "review.css"
+}

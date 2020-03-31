@@ -15,6 +15,7 @@ def load_logged_in_user():
     else:
         g.user = db.execute("SELECT * FROM user WHERE id = :id",
                         {"id": user_id}).fetchone()
+        db.close() 
 
 
 def login_required(view):

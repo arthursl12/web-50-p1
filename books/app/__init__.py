@@ -13,7 +13,7 @@ app = Flask(__name__)
 app.config.from_object(Config)
 
 # Session(app)
-engine = create_engine(os.getenv("DATABASE_URL")) # database engine object from SQLAlchemy that manages connections to the database
+engine = create_engine(os.getenv("DATABASE_URL"), pool_recycle=3600) # database engine object from SQLAlchemy that manages connections to the database
                                                     # DATABASE_URL is an environment variable that indicates where the database lives
 db = scoped_session(sessionmaker(bind=engine))
 

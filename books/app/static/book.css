@@ -9,12 +9,17 @@
   font-size: 30px;
   padding-top: 5px; }
 
+.post_review_button {
+  background-color: peru;
+  border-color: saddlebrown;
+  margin: 10px; }
+
 @media (max-width: 770px) {
   #title {
     font-weight: 600;
     font-size: x-large; }
 
   .categoria {
-    text-decoration: underline; } }
+    text-decoration: underline !important; } }
 
 /*# sourceMappingURL=book.css.map */

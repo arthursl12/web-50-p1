@@ -17,3 +17,4 @@ class BookSearchForm(FlaskForm):
 class BookReviewForm(FlaskForm):
     rating = DecimalField('Rating', places=2,validators=[NumberRange(min=0, max=5),DataRequired()])
     review_text = TextAreaField('Review', validators=[DataRequired()])
+    submit = SubmitField('Submit')

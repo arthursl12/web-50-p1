@@ -5,7 +5,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 
 
-engine = create_engine(os.getenv("DATABASE_URL")) # database engine object from SQLAlchemy that manages connections to the database
+engine = create_engine(os.getenv("DATABASE_URL"), pool_recycle=3600) # database engine object from SQLAlchemy that manages connections to the database
                                                     # DATABASE_URL is an environment variable that indicates where the database lives
 db = scoped_session(sessionmaker(bind=engine))
 
@@ -17,4 +17,5 @@ def importBooks():
                 {"isbn": isbn, "title": title, "author": author, "year": year}) # substitute values from CSV line into SQL command, as per this dict
         print(f"Book:{isbn}, {title} from {author}, {year}")
     db.commit()
+    db.close() 
 
