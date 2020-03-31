@@ -9,6 +9,17 @@
         <h1>Book Reviews</h1>
         <p>Powered by Goodreads API</p>
     </div>
+    {% if alert %}
+    <div class="container">
+        <div class="row">
+            <div id="marcador" class="col-sm align-items-center" >
+                <div class="alert alert-success">
+                    {{ alert }}
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
     <div id="login_box" class="border border-dark rounded">
         <div class="d-flex text-center flex-wrap align-items-center justify-content-center">
             <h2>Sign In</h1>
@@ -42,6 +53,8 @@
                 
             </form>
         </div>
+
+        <p class="text-center">Not an user yet? <a href="{{url_for('register')}}">Register</a></p>
     </div>
     
 {% endblock %}

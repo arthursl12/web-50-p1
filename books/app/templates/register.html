@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block styles %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='login.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='register.css') }}">
+{% endblock %}
+
+{% block content %}
+    <div id="page_title" class="text-center align-items-center justify-content-center">
+        <h1>Book Reviews</h1>
+        <p>Powered by Goodreads API</p>
+    </div>
+    
+    <form id='review_form' class="registration_box container" action="" method="post" novalidate>
+        <div class="row col-sm-4">
+            <h2>Register</h2>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-4">
+                {{form.username.label}}: {{ form.username(class='form-control',size=30) }}
+            </div>
+            <div class="col-sm-4">
+                {% for error in form.username.errors %}
+                    <br>
+                    <span style="color: red;">[{{ error }}]</span>
+                {% endfor %}
+            </div>
+        </div>
+
+        <br>
+
+        <div class="row">
+            <div class="col-sm-4">
+                {{form.password.label}}: {{ form.password(class='form-control',size=30) }}
+                {% for error in form.password.errors %}
+                        <span style="color: red;">[{{ error }}]</span>
+                {% endfor %}
+            </div>
+            <div class="col-sm-4">
+                {{form.password2.label}}: {{ form.password2(class='form-control',size=30) }}
+                {% for error in form.password2.errors %}
+                        <span style="color: red;">[{{ error }}]</span>
+                {% endfor %}
+            </div>
+        </div>
+
+        <br>
+
+        <div class="row">
+            <div class="col-sm-8 text-center align-items-center">
+                <p>{{ form.submit(class="btn btn-primary align-items-center") }}</p>
+            </div>
+        </div>
+    </form>
+        
+
+    
+{% endblock %}

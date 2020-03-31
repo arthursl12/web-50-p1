@@ -5,7 +5,7 @@ import functools
 from app.auth import login_required
 from app import app
 from app import db
-from app.forms import LoginForm, BookSearchForm, BookReviewForm
+from app.forms import LoginForm, BookSearchForm, BookReviewForm, RegisterForm
 from app.users import checkPassword, findUser
 from app.posts import addPost, getPosts, canPost
 
@@ -29,7 +29,7 @@ def search():
 
 
 @app.route('/login', methods=['GET', 'POST'])
-def login():
+def login(alert=""):
     form = LoginForm(request.form)
     if form.validate_on_submit():
         user = db.execute("SELECT * FROM user WHERE login = :login",
@@ -44,7 +44,7 @@ def login():
             flash('Login requested for user {}'.format(
             form.username.data))
             return redirect(url_for('search'))
-    return render_template('login.html', title='Sign In', form=form)
+    return render_template('login.html', title='Sign In', form=form, alert=alert)
 
 @app.route('/logout')
 def logout():
@@ -81,7 +81,7 @@ def bookPage(isbn, alert=""):
     if g.user is None: canpost = False
     else: canpost = canPost(isbn, session['user_id'])
 
-    if alert == "success": msg = "Post added successfuly!"
+    if alert == "success": msg = "Post added successfully!"
     else: msg = ""
 
     if book is None:
@@ -111,3 +111,15 @@ def review(isbn):
         addPost(session['user_id'], isbn, float(reviewForm.rating.data), reviewForm.review_text.data)
         return redirect(url_for('bookPage', isbn=isbn, alert="success"))
     return render_template('review.html', book=book, form=reviewForm, user=findUser(session['user_id']))
+
+@app.route('/register', methods=['GET','POST'])
+def register():
+    registerForm = RegisterForm(request.form)
+
+    if request.method == 'POST' and registerForm.validate_on_submit():
+        # The validation is actually held in the form class
+        # adduser
+        return redirect(url_for('login', alert="User created successfully"))
+    return render_template('register.html', form=registerForm)
+
+

@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField, SubmitField, SelectField, DecimalField, TextAreaField
-from wtforms.validators import DataRequired, NumberRange, ValidationError
+from wtforms.validators import DataRequired, NumberRange, ValidationError, EqualTo
 
 from app import db
 from app.users import checkPassword
@@ -10,6 +10,19 @@ class LoginForm(FlaskForm):
     password = PasswordField('Password', validators=[DataRequired()])
     submit = SubmitField('Sign In')
 
+class RegisterForm(FlaskForm):
+    username = StringField('Username', validators=[DataRequired()])
+    password = PasswordField('Password', validators=[DataRequired()])
+    password2 = PasswordField('Repeat Password', validators=[DataRequired(), 
+                                                 EqualTo('password')])
+    submit = SubmitField('Register')
+
+    def validate_username(self, username):
+        user = db.execute("SELECT * FROM user WHERE login = :name",
+                        {"name": username.data}).fetchone()
+        db.close()
+        if user is not None:
+            raise ValidationError('Please use a different username.')
 
 
 class BookSearchForm(FlaskForm):
