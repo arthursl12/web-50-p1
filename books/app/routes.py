@@ -6,7 +6,7 @@ from app.auth import login_required
 from app import app
 from app import db
 from app.forms import LoginForm, BookSearchForm, BookReviewForm, RegisterForm
-from app.users import checkPassword, findUser
+from app.users import checkPassword, findUser, createUser
 from app.posts import addPost, getPosts, canPost
 
 GOODREADS_KEY = "qwAYxunHEt6KnQJzDskA"
@@ -29,6 +29,7 @@ def search():
 
 
 @app.route('/login', methods=['GET', 'POST'])
+@app.route('/login/<alert>', methods=['GET', 'POST'])
 def login(alert=""):
     form = LoginForm(request.form)
     if form.validate_on_submit():
@@ -41,10 +42,13 @@ def login(alert=""):
         else:
             session.clear()
             session['user_id'] = user.id
-            flash('Login requested for user {}'.format(
-            form.username.data))
+            flash('Login requested for user {}'.format(form.username.data))
             return redirect(url_for('search'))
-    return render_template('login.html', title='Sign In', form=form, alert=alert)
+    print(alert)
+    if alert=="success": msg = "User created successfully! Please log in now."
+    else: msg = ""
+
+    return render_template('login.html', title='Sign In', form=form, alert=msg)
 
 @app.route('/logout')
 def logout():
@@ -118,8 +122,9 @@ def register():
 
     if request.method == 'POST' and registerForm.validate_on_submit():
         # The validation is actually held in the form class
-        # adduser
-        return redirect(url_for('login', alert="User created successfully"))
+        print(registerForm.username.data)
+        createUser(registerForm.username.data, registerForm.password.data)
+        return redirect(url_for('login', alert="success"))
     return render_template('register.html', form=registerForm)
 
 

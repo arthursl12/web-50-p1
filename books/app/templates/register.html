@@ -17,6 +17,7 @@
         </div>
 
         <div class="row">
+            {{ form.hidden_tag() }}
             <div class="col-sm-4">
                 {{form.username.label}}: {{ form.username(class='form-control',size=30) }}
             </div>

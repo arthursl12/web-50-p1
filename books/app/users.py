@@ -8,12 +8,11 @@ def findUser(_id):
     if user == None: raise Exception('usuário com esse ID não existe')
     return user
 
-def createUser(_name, _login, _password):
-    db.execute("INSERT INTO user (name, login, hash) VALUES (:name, :login, :hash)",
-            {"name": _name, 
-            "login": _login,
+def createUser(_login, _password):
+    db.execute("INSERT INTO user (login, hash) VALUES (:login, :hash)",
+            {"login": _login,
             "hash": generate_password_hash(_password)})
-    print(f"User criado:{_name}, {_login}")
+    print(f"User criado {_login}")
     db.commit()
     db.close() 
     
