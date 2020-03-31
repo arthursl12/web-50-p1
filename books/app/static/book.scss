@@ -19,6 +19,21 @@
     margin: 10px;
 }
 
+.review{
+    background-color: salmon;
+    padding-top: 10px;
+    margin-bottom: 10px;
+}
+
+h2{
+    font-size: x-large;
+}
+
+h3{
+    font-size: large;
+    text-decoration: underline
+}
+
 @media (max-width: 770px) {
     #title{
         font-weight: 600;
@@ -26,5 +41,9 @@
     }
     .categoria{
         text-decoration: underline !important;
+    }
+    h2{
+        font-size: large;
+        font-weight: 600;
     }
 }

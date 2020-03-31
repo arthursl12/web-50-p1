@@ -7,7 +7,7 @@ from app import app
 from app import db
 from app.forms import LoginForm, BookSearchForm, BookReviewForm
 from app.users import checkPassword, findUser
-from app.posts import addPost
+from app.posts import addPost, getPosts, canPost
 
 GOODREADS_KEY = "qwAYxunHEt6KnQJzDskA"
 
@@ -75,14 +75,14 @@ def bookPage(isbn, alert=""):
     db.close() 
     # print(book)
 
-    if g.user is None:
-            user = None
-    else:
-        user = findUser(session['user_id'])
+    if g.user is None: user = None
+    else: user = findUser(session['user_id'])
+
+    if g.user is None: canpost = False
+    else: canpost = canPost(isbn, session['user_id'])
 
     if alert == "success": msg = "Post added successfuly!"
     else: msg = ""
-
 
     if book is None:
         abort(404)
@@ -94,8 +94,10 @@ def bookPage(isbn, alert=""):
 
         # Render template
         # print(f"Book:{book.isbn}, {book.title} from {book.author}, {book.year}")
-    
-        return render_template('book.html', book=book, book_json=book_json, user=user, alert=msg)
+        print(canpost)
+        return render_template('book.html', book=book, book_json=book_json, 
+                                user=user, alert=msg, reviews=getPosts(isbn), canPost=canpost)
+
 
 @app.route('/book/<isbn>/review', methods=['GET','POST'])
 @login_required
@@ -106,6 +108,6 @@ def review(isbn):
     reviewForm = BookReviewForm(request.form)
     if request.method == 'POST' and reviewForm.validate_on_submit():
         # The validation is actually held in the form class!
-        # addPost(session['user_id'], isbn, float(reviewForm.rating.data), reviewForm.review_text.data)
+        addPost(session['user_id'], isbn, float(reviewForm.rating.data), reviewForm.review_text.data)
         return redirect(url_for('bookPage', isbn=isbn, alert="success"))
     return render_template('review.html', book=book, form=reviewForm, user=findUser(session['user_id']))

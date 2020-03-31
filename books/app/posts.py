@@ -17,4 +17,35 @@ def addPost(user_id, book_isbn, rating, content):
     print(f"Post from:{user_id} about {book_isbn} with rating {rating} added")
     db.commit()
     db.close() 
+
+def getPosts(book_isbn):
+    book = db.execute("SELECT * FROM book WHERE isbn=:isbn",
+                {"isbn": book_isbn}).fetchone()
+    db.close()
+    if book is None: 
+        raise Exception("Livro não encontrado")
+    
+    posts = db.execute("SELECT * FROM post WHERE book_isbn=:isbn",
+                        {"isbn": book_isbn}).fetchall()
+    db.close()
+    return posts
+
+def canPost(book_isbn, user_id):
+    # Checking if the user and the book are valid
+    findUser(user_id)
+    book = db.execute("SELECT * FROM book WHERE isbn=:isbn",
+                {"isbn": book_isbn}).fetchone()
+    db.close()
+    if book is None: 
+        raise Exception("Livro não encontrado")
+    
+    # Checking if already posted
+    posts = db.execute("SELECT * FROM post WHERE book_isbn=:isbn AND user_id=:id",
+                        {"isbn": book_isbn, "id":user_id}).fetchone()
+    db.close()
+    if posts is None:
+        return True
+    else:
+        return False
+
     

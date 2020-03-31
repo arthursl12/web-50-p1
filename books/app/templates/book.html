@@ -29,8 +29,6 @@
             </div>
         </div>
     </div>
-        
-    
     {% endif %}
    
     
@@ -75,14 +73,23 @@
 
     </div>
     <div class="container">
-        {% if user %}
+        {% if user and canPost %}
             <a class="post_review_button btn btn-primary" href="{{ url_for('review', isbn=book.isbn) }}" role="button">Post a review</a><br>
+        {% elif (user and not canPost) %}
+            <p>You have already reviewed this book.</p>
         {% endif %}
+    
+
+
 
         {% if reviews %}
+        <h2>User Reviews:</h2>
             {% for review in reviews %}
-            <div class="row">
-                <p>{{ review }}</p>
+            <div class="review row rounded">
+                <div class="col-sm">
+                    <h3>{{ review.user_id }}: {{ review.rating }}/5</h3>
+                    <p>{{ review.post_content }}</p>
+                </div>
             </div>
             {% endfor %}
         {% endif %}
