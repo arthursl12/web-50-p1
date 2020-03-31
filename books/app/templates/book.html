@@ -6,7 +6,7 @@
 
 
 {% block content %}
-    {% if userlogged == false %}
+    {% if not user %}
     <div class="top-bar">
         <div class="container">
             <nav class="nav blog-nav">
@@ -55,7 +55,7 @@
         </div>
 
         {% if userlogged == true and canPostReview == true %}
-            
+
         {% endif %}
 
         {% if reviews %}

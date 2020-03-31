@@ -24,7 +24,7 @@ def search():
     if request.method == 'POST':
         return search_results(search)
     return render_template('search.html', 
-        title='Home', user=user, userlogged=True, form=search)
+        title='Home', user=user, form=search)
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -42,7 +42,7 @@ def login():
             flash('Login requested for user {}'.format(
             form.username.data))
             return redirect(url_for('search'))
-    return render_template('login.html', title='Sign In', form=form, userlogged=False)
+    return render_template('login.html', title='Sign In', form=form)
 
 @app.route('/logout')
 def logout():
@@ -71,6 +71,11 @@ def bookPage(isbn):
     book = db.execute("SELECT * FROM book WHERE isbn=:isbn", {"isbn": isbn}).fetchone()
     print(book)
 
+    if g.user is None:
+            user = None
+    else:
+        user = user = findUser(session['user_id'])
+
     if book is None:
         abort(404)
     else:
@@ -81,7 +86,8 @@ def bookPage(isbn):
 
         # Render template
         print(f"Book:{book.isbn}, {book.title} from {book.author}, {book.year}")
-        return render_template('book.html', book=book, book_json=book_json, userlogged=True)
+    
+        return render_template('book.html', book=book, book_json=book_json, user=user)
 
 @app.route('/book/<isbn>/review')
 @login_required
