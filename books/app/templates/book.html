@@ -19,9 +19,11 @@
 
     <div id="book" class="container">
         <div class="row">
-            <div class="col-sm-1" style="background-color: aquamarine;"></div>
-            <div id="title" class="col-sm-9">
-                <h1>
+            <div id="marcador" class="col-sm-1 align-items-center text-center" >
+                <p class='book-emoji'>📖</p>
+            </div>
+            <div class="col-sm-11">
+                <h1 id="title">
                     {{book.title}}
                     ({{book.year}})
                 </h1>
@@ -30,6 +32,9 @@
         </div>
         
         <div class="row">
+            <div class="categoria col-sm-2">
+                <p>General info:</p>
+            </div>
             <div class="col-sm">
                 <p id="book_contents">
                     <span>ISBN: {{book.isbn}}</span><br>
@@ -38,7 +43,32 @@
                 </p>
             </div>
         </div>
+        <div class="row">
+            <div class="categoria col-sm-2">
+                <p>GoodReads Rating:</p>
+            </div>
+            <div class="col-sm">
+                <p id="book_contents">
+                    {{ book_json['average_rating'] }} out of 5, considering {{ book_json['ratings_count'] }} ratings
+                </p>
+            </div>
+        </div>
+
+        {% if userlogged == true and canPostReview == true %}
+            
+        {% endif %}
+
+        {% if reviews %}
+            {% for review in reviews %}
+            <div class="row">
+                <p>{{ review }}</p>
+            </div>
+            {% endfor %}
+        {% endif %}
+
     </div>
+
+
     
     
 

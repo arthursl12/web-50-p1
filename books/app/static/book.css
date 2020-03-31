@@ -5,4 +5,16 @@
   background-color: #fff7eb;
   margin-bottom: 30px; }
 
+.book-emoji {
+  font-size: 30px;
+  padding-top: 5px; }
+
+@media (max-width: 770px) {
+  #title {
+    font-weight: 600;
+    font-size: x-large; }
+
+  .categoria {
+    text-decoration: underline; } }
+
 /*# sourceMappingURL=book.css.map */

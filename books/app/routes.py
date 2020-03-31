@@ -1,10 +1,12 @@
 from flask import render_template,session, flash, redirect, url_for, request, abort
-
+import requests
 
 from app import app
 from app import db
 from app.forms import LoginForm, BookSearchForm
 from app.users import checkPassword, findUser
+
+GOODREADS_KEY = "qwAYxunHEt6KnQJzDskA"
 
 
 @app.route("/")
@@ -65,8 +67,15 @@ def search_results(search):
 def bookPage(isbn):
     book = db.execute("SELECT * FROM book WHERE isbn=:isbn", {"isbn": isbn}).fetchone()
     print(book)
+
     if book is None:
         abort(404)
     else:
+        # Request from Goodreads API
+        res = requests.get("https://www.goodreads.com/book/review_counts.json", params={"key": GOODREADS_KEY, "isbns": isbn})
+        book_json = (res.json())["books"][0]
+        print(book_json)
+
+        # Render template
         print(f"Book:{book.isbn}, {book.title} from {book.author}, {book.year}")
-        return render_template('book.html', book=book, userlogged=False)
+        return render_template('book.html', book=book, book_json=book_json, userlogged=True)
