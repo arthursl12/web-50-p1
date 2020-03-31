@@ -29,7 +29,7 @@ def search():
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    form = LoginForm()
+    form = LoginForm(request.form)
     if form.validate_on_submit():
         user = db.execute("SELECT * FROM user WHERE login = :login",
                           {"login": form.username.data}).fetchone()
@@ -99,7 +99,8 @@ def review(isbn):
     book = db.execute("SELECT * FROM book WHERE isbn=:isbn", {"isbn": isbn}).fetchone()
     db.close()
 
-    reviewForm = BookReviewForm()
-    if reviewForm.validate_on_submit():
+    reviewForm = BookReviewForm(request.form)
+    if request.method == 'POST' and reviewForm.validate_on_submit():
+        # The validation is actually held in the form class!
         pass
     return render_template('review.html', book=book, form=reviewForm, user=findUser(session['user_id']))
