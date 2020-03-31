@@ -3,13 +3,14 @@ from wtforms import StringField, PasswordField, BooleanField, SubmitField, Selec
 from wtforms.validators import DataRequired, NumberRange, ValidationError
 
 from app import db
+from app.users import checkPassword
 
 class LoginForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
     password = PasswordField('Password', validators=[DataRequired()])
     submit = SubmitField('Sign In')
 
-    
+
 
 class BookSearchForm(FlaskForm):
     choices = [('title','Book Title'),

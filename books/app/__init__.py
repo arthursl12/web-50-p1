@@ -20,6 +20,6 @@ db = scoped_session(sessionmaker(bind=engine))
 from app import auth
 app.register_blueprint(auth.bp)
 
-from app import routes, models
+from app import routes
 
 app.run(debug=True)
