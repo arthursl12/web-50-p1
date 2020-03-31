@@ -11,6 +11,10 @@
 h2 {
   font-weight: 300; }
 
+#login_form {
+  margin-top: 10px;
+  margin-bottom: 0; }
+
 #login_box {
   max-width: 400px;
   margin: auto;
@@ -19,6 +23,11 @@ h2 {
   border-radius: 30px !important;
   border-color: burlywood !important;
   margin-bottom: 30px;
-  background-color: #fff7eb; }
+  background-color: #fff7eb;
+  padding: 5px; }
+
+.btn {
+  background-color: peru;
+  border-color: saddlebrown; }
 
 /*# sourceMappingURL=login.css.map */

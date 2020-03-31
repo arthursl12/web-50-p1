@@ -20,19 +20,19 @@
                 {{ form.hidden_tag() }}
                 <p>
                     {{ form.username.label }}<br>
-                    {{ form.username(size=32) }}<br>
+                    {{ form.username(class="form-control",size=32) }}<br>
                     {% for error in form.username.errors %}
                     <span style="color: red;">[{{ error }}]</span>
                     {% endfor %}
                 </p>
                 <p>
                     {{ form.password.label }}<br>
-                    {{ form.password(size=32) }}<br>
+                    {{ form.password(class="form-control",size=32) }}<br>
                     {% for error in form.password.errors %}
                     <span style="color: red;">[{{ error }}]</span>
                     {% endfor %}
                 </p>
-                <p>{{ form.submit() }}</p>
+                <p>{{ form.submit(class="btn btn-primary") }}</p>
             </form>
         </div>
     </div>

@@ -96,7 +96,10 @@ def bookPage(isbn):
 @app.route('/book/<isbn>/review', methods=['GET','POST'])
 @login_required
 def review(isbn):
+    book = db.execute("SELECT * FROM book WHERE isbn=:isbn", {"isbn": isbn}).fetchone()
+    db.close()
+
     reviewForm = BookReviewForm()
     if reviewForm.validate_on_submit():
         pass
-    return render_template('review.html', form=reviewForm, user=findUser(session['user_id']))
+    return render_template('review.html', book=book, form=reviewForm, user=findUser(session['user_id']))

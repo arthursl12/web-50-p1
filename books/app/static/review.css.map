@@ -1,6 +1,6 @@
 {
 "version": 3,
-"mappings": "AAAA,EAAE;EACE,gBAAgB,EAAE,WAAW",
+"mappings": "AAAA,MAAM;EACF,WAAW,EAAE,KAAK;;AAGtB,yBAA0B;EACtB,MAAM;IACF,WAAW,EAAE,GAAG;IAChB,SAAS,EAAE,OAAO;AAI1B,YAAY;EACR,UAAU,EAAE,IAAI;;AAGpB,IAAI;EACA,gBAAgB,EAAE,IAAI;EACtB,YAAY,EAAE,WAAW;EACzB,MAAM,EAAE,IAAI",
 "sources": ["review.scss"],
 "names": [],
 "file": "review.css"

@@ -1,3 +1,20 @@
-h1{
-    background-color: saddlebrown;
+#title{
+    text-shadow: black;
+}
+
+@media (max-width: 770px) {
+    #title{
+        font-weight: 600;
+        font-size: x-large;
+    }
+}
+
+#review_form{
+    margin-top: 10px;
+}
+
+.btn{
+    background-color: peru;
+    border-color: saddlebrown;
+    margin: 10px;
 }

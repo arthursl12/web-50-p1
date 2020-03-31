@@ -5,26 +5,43 @@
 {% endblock %}
 
 {% block content %}
+    <div class="container">
+        <div class="row">
+            <h2 id="title">Review of {{ book.title }} ({{book.year}}) by {{user.login}}</h2>
+        </div>
+    </div>
     <form id='review_form' action="" method="post">
         <div class="container">
-            <div class="row"></div>
-                <div class="col-sm-7" style="background-color: aquamarine;">
+            <div class="row">
+
+                <div class="col-sm-2">
+                    <p class="text-center">Rating (0-5):</p>
+                </div>
+                <div class="col-sm-3">
                     <p>
-                        {{ form.rating.label }} (0-5): {{ form.rating(size=5) }}<br>
+                        {{ form.rating(class='form-control',size=5) }}
                         {% for error in form.rating.errors %}
                             <span style="color: red;">[{{ error }}]</span>
                         {% endfor %}
                     </p>
                 </div>
+
+
             </div>
+                
+            
         </div>
         <div class="container">
             
             <div class="row">
-                <div class="col-sm-7" style="background-color: peru;">
-                    <p>
-                        {{ form.review_text.label }}<br>
-                        {{ form.review_text(size=30) }}<br>
+                <div class="col-sm-2">
+                    <p class="text-center">Review Text:</p>
+                </div>
+                <div class="col-sm-10">
+                    <p> 
+                        
+                        
+                        {{ form.review_text(class='form-control',cols="80", rows="5") | safe }}
                         {% for error in form.review_text.errors %}
                             <span style="color: red;">[{{ error }}]</span>
                         {% endfor %}
@@ -34,8 +51,8 @@
                 
             </div>
             <div class="row">
-                <div class="col-sm-7 align-items-center">
-                        <p>{{ form.submit() }}</p>
+                <div class="col-sm-12 text-center align-items-center">
+                        <p>{{ form.submit(class="btn btn-primary align-items-center") }}</p>
                 </div>
                 
             </div>
