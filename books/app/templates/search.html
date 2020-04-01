@@ -44,9 +44,6 @@
                     </tr>
                 
                 {% for book in results %}
-                
-
-                
                     <tr onclick="location.href='{{url_for('bookPage', isbn=book.isbn)}}' " class="real_rows">
                         <td>{{ book.isbn }}</td>
                         <td>{{ book.title }}</td>
