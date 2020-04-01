@@ -48,4 +48,10 @@ def canPost(book_isbn, user_id):
     else:
         return False
 
-    
+def howManyPosts(book_isbn):
+    result = db.execute("SELECT COUNT(*) FROM post WHERE book_isbn=:isbn GROUP BY book_isbn",
+                {"isbn": book_isbn}).fetchone()
+    db.close()
+    print(result)
+
+    return result

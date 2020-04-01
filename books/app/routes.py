@@ -1,4 +1,4 @@
-from flask import Blueprint,render_template,session, flash, redirect, url_for, request, abort, g
+from flask import Blueprint,render_template,session, flash, redirect, url_for, request, abort, g, jsonify
 import requests
 import functools
 
@@ -7,7 +7,7 @@ from app import app
 from app import db
 from app.forms import LoginForm, BookSearchForm, BookReviewForm, RegisterForm
 from app.users import checkPassword, findUser, createUser
-from app.posts import addPost, getPosts, canPost
+from app.posts import addPost, getPosts, canPost, howManyPosts
 
 GOODREADS_KEY = "qwAYxunHEt6KnQJzDskA"
 
@@ -16,8 +16,6 @@ GOODREADS_KEY = "qwAYxunHEt6KnQJzDskA"
 @app.route('/index')
 def index():
     return redirect(url_for('login'))
-
-# SELECT * FROM flights WHERE origin LIKE '%a%';
 
 def searchResults(searchText):
     search = '%' + searchText + '%'
@@ -28,7 +26,6 @@ def searchResults(searchText):
     # for book in results:
     #     print(book.title, book.isbn, book.author)
     return results
-
 
 @app.route('/search', methods=['GET', 'POST'])
 @login_required
@@ -46,7 +43,6 @@ def search():
         print(results)
         return render_template('search.html', title='Search Results', user=user, form=searchForm, results=results)
     return render_template('search.html', title='Home', user=user, form=searchForm, results=results)
-
 
 @app.route('/login', methods=['GET', 'POST'])
 @app.route('/login/<alert>', methods=['GET', 'POST'])
@@ -74,23 +70,6 @@ def login(alert=""):
 def logout():
     session.clear()
     return redirect(url_for('login'))
-
-@app.route('/results')
-@login_required
-def search_results(search):
-    # TODO: adaptar essa função para o SQLAlchemy puro
-    # Função original de http://www.blog.pythonlibrary.org/2017/12/13/flask-101-how-to-add-a-search-form/
-    results = []
-    search_string = search.data['search']
-    if search.data['search'] == '':
-        qry = db_session.query(Album)
-        results = qry.all()
-    if not results:
-        flash('No results found!')
-        return redirect('/')
-    else:
-        # display results
-        return render_template('results.html', results=results)
     
 @app.route('/book/<isbn>')
 @app.route('/book/<isbn>/<alert>')
@@ -122,7 +101,6 @@ def bookPage(isbn, alert=""):
         return render_template('book.html', book=book, book_json=book_json, 
                                 user=user, alert=msg, reviews=getPosts(isbn), canPost=canpost)
 
-
 @app.route('/book/<isbn>/review', methods=['GET','POST'])
 @login_required
 def review(isbn):
@@ -147,4 +125,32 @@ def register():
         return redirect(url_for('login', alert="success"))
     return render_template('register.html', form=registerForm)
 
+@app.route('/api/<isbn>', methods=['GET'])
+def api(isbn):
+    # Get the book
+    book = db.execute("SELECT * FROM book WHERE isbn=:isbn", {"isbn": isbn}).fetchone()
+    db.close() 
+
+    # Get the info from Goodreads API
+    res = requests.get("https://www.goodreads.com/book/review_counts.json", params={"key": GOODREADS_KEY, "isbns": isbn})
+    book_json = (res.json())["books"][0]
+
+    # Get the review count from DB
+    qtd_reviews = howManyPosts(isbn)
+    if qtd_reviews is None:
+        qtd = 0
+    else:
+        qtd = qtd_reviews[0]
+
+    # Create the response
+    response = {
+        "title": book.title,
+        "author": book.author,
+        "year": book.year,
+        "isbn": isbn,
+        "review_count": qtd,
+        "average_score": book_json['average_rating']
+    }
+
+    return jsonify(response)
 
