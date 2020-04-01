@@ -26,10 +26,6 @@ class RegisterForm(FlaskForm):
 
 
 class BookSearchForm(FlaskForm):
-    choices = [('title','Book Title'),
-               ('author','Author'),
-               ('isbn','ISBN')]
-    select = SelectField('Search for books:', choices=choices)
     search = StringField('')
 
 class BookReviewForm(FlaskForm):

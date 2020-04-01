@@ -6,26 +6,41 @@
 
 
 {% block content %}
-    <div class="float-none">
+    <div class="container float-none">
         <h1 id="saudation">Hi, {{ user.login }}!</h1>
     </div>
     <br>
 
-    {% for post in posts %}
-    <div><p>{{ post.author.username }} says: <b>{{ post.body }}</b></p></div>
-    {% endfor %}
-
-    <div class="d-flex text-center align-items-center justify-content-center">   
-        <form id='search_form' action="" method="post" novalidate>
-            {{ form.hidden_tag() }}
-            <p>
-                <span id="selection">{{ form.select }}</span>
-                <span id="search_bar">{{ form.search }}</span>
-                
-            </p>
-            <p><input type="submit" value="Search"></p>
-        </form>
+    <div class="container">
+        <div class="d-flex text-center flex-wrap align-items-center justify-content-center">
+            <p>Search for books:</p>
+        </div>
+        <div class="d-flex text-center flex-wrap align-items-center justify-content-center">
+            <div class="col-sm-4"> 
+                <form id='search_form' action="" method="post" novalidate>
+                    {{ form.hidden_tag() }}
+                    {{ form.search (class="form-control") }}
+                    <input class="btn btn-primary" type="submit" value="Search">
+                </form>
+            </div>
+        </div>   
     </div>
+    
+    {% if results is not none %}
+    <div class="container">
+        <h2>Search Results:</h2>
+        {% if results | length == 0 %}
+            <p>Sorry, no matches found! :(</p>
+        {% else %}
+            {% for book in results %}
+            {{ book.isbn }} {{ book.title }} {{ book.author }}
+            <br>
+            {% endfor %}
+        {% endif %}
+    </div>
+    
+    {% endif %}
+
     
 
 {% endblock %}

@@ -85,7 +85,7 @@
         {% if reviews %}
         <h2>User Reviews:</h2>
             {% for review in reviews %}
-            <div class="review row rounded">
+            <div class="review row rounded border">
                 <div class="col-sm">
                     <h3>{{ review.user_id }}: {{ review.rating }}/5</h3>
                     <p>{{ review.post_content }}</p>

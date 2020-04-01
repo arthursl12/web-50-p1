@@ -17,15 +17,35 @@ GOODREADS_KEY = "qwAYxunHEt6KnQJzDskA"
 def index():
     return redirect(url_for('login'))
 
+# SELECT * FROM flights WHERE origin LIKE '%a%';
+
+def searchResults(searchText):
+    search = '%' + searchText + '%'
+    results = db.execute("SELECT * FROM book WHERE (isbn LIKE :text) OR (author LIKE :text) OR (title LIKE :text)",
+                        {"text": search}).fetchall()
+    db.close()
+    # print(results)
+    # for book in results:
+    #     print(book.title, book.isbn, book.author)
+    return results
+
+
 @app.route('/search', methods=['GET', 'POST'])
 @login_required
 def search():
     user = findUser(session['user_id'])
-    search = BookSearchForm()
-    if request.method == 'POST':
-        return search_results(search)
-    return render_template('search.html', 
-        title='Home', user=user, form=search)
+    searchForm = BookSearchForm(request.form)
+
+    results = None
+    if request.method == 'POST' and searchForm.validate_on_submit():
+        results = searchResults(searchForm.search.data)
+        if len(results) > 0:
+            print(results)
+            # for book in results:
+            #     print(book.title, book.isbn, book.author)
+        print(results)
+        return render_template('search.html', title='Search Results', user=user, form=searchForm, results=results)
+    return render_template('search.html', title='Home', user=user, form=searchForm, results=results)
 
 
 @app.route('/login', methods=['GET', 'POST'])
