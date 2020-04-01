@@ -16,8 +16,8 @@
             <p>Search for books:</p>
         </div>
         <div class="d-flex text-center flex-wrap align-items-center justify-content-center">
-            <div class="col-sm-4"> 
-                <form id='search_form' action="" method="post" novalidate>
+            <div id="search_form" class="col-sm-4"> 
+                <form action="" method="post" novalidate>
                     {{ form.hidden_tag() }}
                     {{ form.search (class="form-control") }}
                     <input class="btn btn-primary" type="submit" value="Search">
@@ -28,15 +28,37 @@
     
     {% if results is not none %}
     <div class="container">
-        <h2>Search Results:</h2>
-        {% if results | length == 0 %}
+        <div>
+            <h2 id="result_title">Search Results:</h2>
+        </div>
+        <div class="d-flex align-items-center justify-content-center">
+            {% if results | length == 0 %}
             <p>Sorry, no matches found! :(</p>
-        {% else %}
-            {% for book in results %}
-            {{ book.isbn }} {{ book.title }} {{ book.author }}
-            <br>
-            {% endfor %}
-        {% endif %}
+            {% else %}
+                <table id="result_table" class="text-center border">
+                    <tr class="border-bottom">
+                        <th>ISBN</th>
+                        <th>Title</th>
+                        <th>Author</th>
+                        <th>Year</th>
+                    </tr>
+                
+                {% for book in results %}
+                
+
+                
+                    <tr class="real_rows">
+                        <td>{{ book.isbn }}</td>
+                        <td>{{ book.title }}</td>
+                        <td>{{ book.author }}</td>
+                        <td>{{ book.year }}</td>
+                    </tr>
+                
+                {% endfor %}
+                </table>
+            {% endif %}
+        </div>
+        
     </div>
     
     {% endif %}

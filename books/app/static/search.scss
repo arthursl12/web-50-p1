@@ -8,10 +8,35 @@
     margin: 5px;
 }
 
+#result_table{
+    td, th{
+        padding-bottom: 5px;
+        padding-top: 5px;
+        padding-right: 10px;
+        padding-left: 10px;
+    }
+    .real_rows:hover{
+        background-color: #ec7d52;
+    }
+    .real_rows:active{
+        background-color: orangered;
+    }
+}
+
+#result_table{
+    margin-bottom: 10px;
+}
+
 @media (max-width: 770px) {
     #saudation{
-        
         font-weight: 600;
         font-size: 25px;
+    }
+    #result_title{
+        font-weight: 600;
+        font-size: 20px;
+    }
+    #search_form{
+        width: 250px;
     }
 }
